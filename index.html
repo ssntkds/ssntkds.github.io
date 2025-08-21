@@ -2,64 +2,48 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Лупа с увеличением</title>
+  <title>Лупа ×3 на всю ширину</title>
   <style>
     body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      margin: 0;
       background: #f8f9fa;
       font-family: sans-serif;
     }
 
     .img-container {
       position: relative;
-      margin-bottom: 20px;
+      width: 100%;
+      overflow: hidden;
     }
 
     img {
-      max-width: 500px;
-      border-radius: 10px;
+      width: 100%;   /* на всю ширину экрана */
+      height: auto;  /* сохраняем пропорции */
       display: block;
     }
 
-    /* лупа */
+    /* Лупа */
     .lens {
       position: absolute;
       border: 2px solid #333;
-      width: 120px;
-      height: 120px;
+      width: 150px;   /* можно увеличить размер лупы */
+      height: 150px;
       border-radius: 50%;
       overflow: hidden;
       pointer-events: none;
-      transition: left 0.1s ease, top 0.1s ease; /* плавность */
     }
 
     .lens img {
       position: absolute;
       transform-origin: top left;
-      transition: transform 0.2s ease; /* плавность при изменении масштаба */
-    }
-
-    .controls {
-      display: flex;
-      gap: 10px;
-      align-items: center;
     }
   </style>
 </head>
 <body>
   <div class="img-container">
-    <img id="original" src="qqqq2.png" alt="Demo">
-    <div class="lens"><img id="zoomed" src="qqqq2.png" alt=""></div>
-  </div>
-
-  <div class="controls">
-    <label for="zoom">Увеличение:</label>
-    <input type="range" id="zoom" min="1" max="4" step="0.1" value="2">
-    <span id="zoom-value">2×</span>
+    <!-- Твое изображение -->
+    <img id="original" src="images/qqqq2.png" alt="Demo">
+    <div class="lens"><img id="zoomed" src="images/qqqq2.png" alt=""></div>
   </div>
 
   <script>
@@ -67,16 +51,10 @@
     const original = document.getElementById("original");
     const lens = document.querySelector(".lens");
     const zoomed = document.getElementById("zoomed");
-    const zoomRange = document.getElementById("zoom");
-    const zoomValue = document.getElementById("zoom-value");
 
-    let scale = parseFloat(zoomRange.value);
-
-    zoomRange.addEventListener("input", () => {
-      scale = parseFloat(zoomRange.value);
-      zoomed.style.transform = `scale(${scale})`;
-      zoomValue.textContent = scale.toFixed(1) + "×";
-    });
+    // коэффициент увеличения
+    const scale = 3;
+    zoomed.style.transform = `scale(${scale})`;
 
     container.addEventListener("mousemove", (e) => {
       const rect = original.getBoundingClientRect();
@@ -99,9 +77,6 @@
     container.addEventListener("mouseleave", () => {
       lens.style.display = "none";
     });
-
-    // начальный масштаб
-    zoomed.style.transform = `scale(${scale})`;
   </script>
 </body>
 </html>
