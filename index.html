@@ -17,12 +17,11 @@
     }
 
     #original {
-      width: 100%;   /* изображение тянется на всю ширину */
+      width: 100%;
       height: auto;
       display: block;
     }
 
-    /* Лупа */
     .lens {
       position: absolute;
       border: 2px solid #333;
@@ -36,18 +35,15 @@
 
     .lens img {
       position: absolute;
-      transform-origin: top left;
+      width: auto;
+      height: auto;
     }
   </style>
 </head>
 <body>
   <div class="img-container">
-    <!-- Основное изображение -->
-    <img id="original" src="qqqq2.png" alt="Demo">
-    <!-- Внутри лупы — то же изображение, но будем двигать и увеличивать -->
-    <div class="lens">
-      <img id="zoomed" src="qqqq2.png" alt="">
-    </div>
+    <img id="original" src="images/qqqq2.png" alt="Demo">
+    <div class="lens"><img id="zoomed" src="images/qqqq2.png" alt=""></div>
   </div>
 
   <script>
@@ -55,9 +51,13 @@
     const lens = document.querySelector(".lens");
     const zoomed = document.getElementById("zoomed");
 
-    // коэффициент увеличения
     const scale = 3;
-    zoomed.style.transform = `scale(${scale})`;
+
+    original.addEventListener("load", () => {
+      // выставляем размер zoomed = натуральный размер * scale
+      zoomed.width = original.naturalWidth * scale;
+      zoomed.height = original.naturalHeight * scale;
+    });
 
     document.querySelector(".img-container").addEventListener("mousemove", (e) => {
       const rect = original.getBoundingClientRect();
@@ -70,21 +70,16 @@
       }
 
       lens.style.display = "block";
-
-      // позиция лупы
       lens.style.left = (x - lens.offsetWidth / 2) + "px";
       lens.style.top = (y - lens.offsetHeight / 2) + "px";
 
-      // вычисляем реальный размер картинки
-      const realWidth = original.naturalWidth;
-      const realHeight = original.naturalHeight;
+      // пропорции между оригинальной картинкой и отображаемой
+      const ratioX = original.naturalWidth / rect.width;
+      const ratioY = original.naturalHeight / rect.height;
 
-      const ratioX = realWidth / rect.width;
-      const ratioY = realHeight / rect.height;
-
-      // смещение увеличенной картинки
-      zoomed.style.left = -(x * ratioX) + "px";
-      zoomed.style.top = -(y * ratioY) + "px";
+      // смещение увеличенной картинки внутри лупы
+      zoomed.style.left = -(x * ratioX * scale - lens.offsetWidth / 2) + "px";
+      zoomed.style.top = -(y * ratioY * scale - lens.offsetHeight / 2) + "px";
     });
 
     document.querySelector(".img-container").addEventListener("mouseleave", () => {
