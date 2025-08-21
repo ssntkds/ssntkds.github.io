@@ -1,90 +1,273 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Лупа ×3 на всю ширину</title>
-  <style>
-    body {
-      margin: 0;
-      background: #f8f9fa;
-      font-family: sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой сайт</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .img-container {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    #original {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+        .section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .lens {
-      position: absolute;
-      border: 2px solid #333;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      overflow: hidden;
-      pointer-events: none;
-      display: none;
-    }
+        /* Первая секция с изображением */
+        .hero-section {
+            text-align: center;
+            background-color: white;
+            color: black;
+        }
 
-    .lens img {
-      position: absolute;
-      width: auto;
-      height: auto;
-    }
-  </style>
+        .hero-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        /* Секция с текстом */
+        .text-section {
+            background-color: white;
+            color: black;
+        }
+
+        .text-block {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Секция с черным фоном */
+        .black-section {
+            background-color: black;
+            color: white;
+            padding: 100px 20px;
+        }
+
+        /* Секция со слайдером сравнения */
+        .comparison-section {
+            background-color: black;
+            padding: 50px 20px;
+        }
+
+        .comparison-slider {
+            position: relative;
+            max-width: 800px;
+            height: 500px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .comparison-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-before {
+            z-index: 2;
+            clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: white;
+            cursor: ew-resize;
+            z-index: 3;
+            transform: translateX(-50%);
+        }
+
+        .slider-handle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Секция с белым фоном */
+        .white-section {
+            background-color: white;
+            color: black;
+        }
+
+        /* Галерея изображений */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        h1, h2 {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-  <div class="img-container">
-    <img id="original" src="qqqq2.png" alt="Demo">
-    <div class="lens"><img id="zoomed" src="qqqq2.png" alt=""></div>
-  </div>
+    <!-- Первая секция с изображением -->
+    <section class="section hero-section">
+        <h1>Мое портфолио</h1>
+        <img src="qqqq2.jpg" alt="Мое изображение" class="hero-image" id="mainImage">
+    </section>
 
-  <script>
-    const original = document.getElementById("original");
-    const lens = document.querySelector(".lens");
-    const zoomed = document.getElementById("zoomed");
+    <!-- Блок текста -->
+    <section class="section text-section">
+        <div class="text-block">
+            <h2>Обо мне</h2>
+            <p>Здесь будет ваш текст. Вы можете рассказать о себе, своих проектах, 
+            увлечениях или чем-то еще, что считаете важным. Этот блок предназначен 
+            для размещения подробной информации.</p>
+            <p>Текст может быть разбит на несколько абзацев для лучшей читаемости. 
+            Вы можете добавить столько текста, сколько посчитаете нужным.</p>
+        </div>
+    </section>
 
-    const scale = 3;
+    <!-- Секция с черным фоном и слайдером -->
+    <div class="black-section">
+        <h2>Сравнение работ</h2>
+    </div>
 
-    original.addEventListener("load", () => {
-      // выставляем размер zoomed = натуральный размер * scale
-      zoomed.width = original.naturalWidth * scale;
-      zoomed.height = original.naturalHeight * scale;
-    });
+    <section class="comparison-section">
+        <div class="comparison-slider" id="comparisonSlider">
+            <img src="image-before.jpg" alt="До" class="comparison-image image-before">
+            <img src="image-after.jpg" alt="После" class="comparison-image image-after">
+            <div class="slider-handle" id="sliderHandle"></div>
+        </div>
+    </section>
 
-    document.querySelector(".img-container").addEventListener("mousemove", (e) => {
-      const rect = original.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    <!-- Еще блок текста -->
+    <section class="section text-section">
+        <div class="text-block">
+            <h2>Мои достижения</h2>
+            <p>В этом разделе вы можете описать свои профессиональные достижения, 
+            пройденные курсы, полученные сертификаты или любые другие успехи.</p>
+            <p>Текст здесь также может быть структурирован по вашему усмотрению.</p>
+        </div>
+    </section>
 
-      if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
-        lens.style.display = "none";
-        return;
-      }
+    <!-- Секция с белым фоном и галереей -->
+    <section class="section white-section">
+        <h2>Мои работы</h2>
+        <div class="gallery">
+            <img src="image1.jpg" alt="Работа 1" class="gallery-image">
+            <img src="image2.jpg" alt="Работа 2" class="gallery-image">
+            <img src="image3.jpg" alt="Работа 3" class="gallery-image">
+            <img src="image4.jpg" alt="Работа 4" class="gallery-image">
+        </div>
+    </section>
 
-      lens.style.display = "block";
-      lens.style.left = (x - lens.offsetWidth / 2) + "px";
-      lens.style.top = (y - lens.offsetHeight / 2) + "px";
+    <script>
+        // Функция для обработки слайдера сравнения
+        function initComparisonSlider() {
+            const slider = document.getElementById('comparisonSlider');
+            const handle = document.getElementById('sliderHandle');
+            const beforeImage = document.querySelector('.image-before');
+            
+            let isDragging = false;
 
-      // пропорции между оригинальной картинкой и отображаемой
-      const ratioX = original.naturalWidth / rect.width;
-      const ratioY = original.naturalHeight / rect.height;
+            function updateSliderPosition(clientX) {
+                const rect = slider.getBoundingClientRect();
+                let position = ((clientX - rect.left) / slider.offsetWidth) * 100;
+                
+                // Ограничиваем положение между 0% и 100%
+                position = Math.max(0, Math.min(100, position));
+                
+                beforeImage.style.clipPath = `polygon(0 0, ${position}% 0, ${position}% 100%, 0 100%)`;
+                handle.style.left = `${position}%`;
+            }
 
-      // смещение увеличенной картинки внутри лупы
-      zoomed.style.left = -(x * ratioX * scale - lens.offsetWidth / 2) + "px";
-      zoomed.style.top = -(y * ratioY * scale - lens.offsetHeight / 2) + "px";
-    });
+            // Обработчики событий для мыши
+            handle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            });
 
-    document.querySelector(".img-container").addEventListener("mouseleave", () => {
-      lens.style.display = "none";
-    });
-  </script>
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    updateSliderPosition(e.clientX);
+                }
+            });
+
+            // Обработчики событий для touch-устройств
+            handle.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (isDragging && e.touches.length > 0) {
+                    updateSliderPosition(e.touches[0].clientX);
+                }
+            });
+
+            // Обработчик клика по слайдеру
+            slider.addEventListener('click', (e) => {
+                updateSliderPosition(e.clientX);
+            });
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            initComparisonSlider();
+            
+            // Добавляем ленивую загрузку для изображений
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.loading = 'lazy';
+            });
+        });
+    </script>
 </body>
 </html>
