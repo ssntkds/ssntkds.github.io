@@ -29,14 +29,16 @@
             text-align: center;
             background-color: #c3d8e5;
             color: black;
+            width: 100%;
+            max-width: 100%;
+            padding: 80px 0;
         }
 
         .hero-image {
             max-width: 100%;
             height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             margin-bottom: 30px;
+            cursor: zoom-in;
         }
 
         /* Секция с текстом */
@@ -146,9 +148,28 @@
         p {
             margin-bottom: 20px;
         }
+
+        /* Стиль для верхнего изображения */
+        .top-image-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .top-image-container img {
+            width: 150px;
+            height: auto;
+            transition: transform 0.2s ease-out;
+        }
     </style>
 </head>
 <body>
+    <!-- Верхнее изображение -->
+    <div class="top-image-container">
+        <img src="topimage.png" alt="Верхнее изображение" id="topImage">
+    </div>
+
     <!-- Первая секция с изображением -->
     <section class="section hero-section">
         <h1>Zemljevid Slovenskih Železnic</h1>
@@ -255,10 +276,36 @@
             });
         }
 
+        // Лупа для изображения
+        function initImageZoom(imgID) {
+            const img = document.getElementById(imgID);
+            img.addEventListener('click', () => {
+                if (img.style.transform === 'scale(2)') {
+                    img.style.transform = 'scale(1)';
+                    img.style.cursor = 'zoom-in';
+                } else {
+                    img.style.transform = 'scale(2)';
+                    img.style.cursor = 'zoom-out';
+                }
+                img.style.transition = 'transform 0.3s ease';
+            });
+        }
+
+        // Эффект вращения верхнего изображения при скролле
+        function initTopImageRotation() {
+            const topImg = document.getElementById('topImage');
+            window.addEventListener('scroll', () => {
+                const rotation = window.scrollY * 0.2;
+                topImg.style.transform = `rotate(${rotation}deg)`;
+            });
+        }
+
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             initComparisonSlider();
-            
+            initImageZoom('mainImage');
+            initTopImageRotation();
+
             // Добавляем ленивую загрузку для изображений
             const images = document.querySelectorAll('img');
             images.forEach(img => {
