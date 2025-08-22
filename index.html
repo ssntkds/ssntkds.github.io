@@ -277,7 +277,7 @@
             glass.className = 'img-magnifier-glass';
             wrap.appendChild(glass);
         
-            const glassSize = 150; // Размер лупы
+            const glassSize = 150;
             const halfSize = glassSize / 2;
         
             function setBackground() {
@@ -292,40 +292,38 @@
             function moveMagnifier(e) {
                 e.preventDefault();
                 
-                // Получаем координаты мыши/касания
+                // Получаем координаты курсора относительно viewport
                 let mouseX, mouseY;
                 if (e.touches) {
-                    mouseX = e.touches[0].pageX;
-                    mouseY = e.touches[0].pageY;
+                    mouseX = e.touches[0].clientX;
+                    mouseY = e.touches[0].clientY;
                 } else {
-                    mouseX = e.pageX;
-                    mouseY = e.pageY;
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
                 }
         
-                // Получаем позицию изображения относительно документа
+                // Получаем позицию изображения относительно viewport
                 const imgRect = img.getBoundingClientRect();
-                const imgLeft = imgRect.left + window.pageXOffset;
-                const imgTop = imgRect.top + window.pageYOffset;
         
                 // Проверяем, находится ли курсор над изображением
-                if (mouseX < imgLeft || mouseX > imgLeft + imgRect.width || 
-                    mouseY < imgTop || mouseY > imgTop + imgRect.height) {
+                if (mouseX < imgRect.left || mouseX > imgRect.right || 
+                    mouseY < imgRect.top || mouseY > imgRect.bottom) {
                     glass.style.display = 'none';
                     return;
                 }
                 glass.style.display = 'block';
         
                 // Позиция курсора относительно изображения (0-1)
-                const relX = (mouseX - imgLeft) / imgRect.width;
-                const relY = (mouseY - imgTop) / imgRect.height;
+                const relX = (mouseX - imgRect.left) / imgRect.width;
+                const relY = (mouseY - imgRect.top) / imgRect.height;
         
                 // Координаты внутри оригинального изображения
                 const bgX = (relX * img.naturalWidth * zoom) - halfSize;
                 const bgY = (relY * img.naturalHeight * zoom) - halfSize;
         
-                // Позиционируем лупу
-                glass.style.left = `${mouseX - halfSize}px`;
-                glass.style.top = `${mouseY - halfSize}px`;
+                // Позиционируем лупу относительно viewport (фиксированная позиция)
+                glass.style.left = `${mouseX - halfSize + window.pageXOffset}px`;
+                glass.style.top = `${mouseY - halfSize + window.pageYOffset}px`;
         
                 // Смещаем background
                 glass.style.backgroundPosition = `-${bgX}px -${bgY}px`;
