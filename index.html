@@ -49,9 +49,11 @@
             width: 150px;
             height: 150px;
             overflow: hidden;
-            z-index: 10;
+            z-index: 9999;
             pointer-events: none;
             background-repeat: no-repeat;
+            transform: translate(-50%, -50%); /* Центрируем лупу относительно курсора */
+            display: none; /* Сначала скрыта */
         }
 
         /* Секция с текстом */
@@ -291,6 +293,15 @@
                 const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             
+                // Проверяем, находится ли курсор над изображением
+                if (clientX < rect.left || clientX > rect.right || 
+                    clientY < rect.top || clientY > rect.bottom) {
+                    glass.style.display = 'none';
+                    return;
+                }
+                glass.style.display = 'block';
+            
+                // Позиция курсора относительно изображения
                 let x = clientX - rect.left;
                 let y = clientY - rect.top;
             
@@ -306,11 +317,11 @@
                 let natX = relX * img.naturalWidth;
                 let natY = relY * img.naturalHeight;
             
-                // Убрать window.scrollX и window.scrollY - они уже учтены в getBoundingClientRect()
+                // Позиционируем лупу точно по центру курсора
                 glass.style.left = (clientX - w) + 'px';
                 glass.style.top = (clientY - h) + 'px';
             
-                // Фон внутри лупы
+                // Фон внутри лупы - смещаем background чтобы нужная часть была в центре лупы
                 glass.style.backgroundPosition = `-${natX * zoom - w}px -${natY * zoom - h}px`;
             }
 
