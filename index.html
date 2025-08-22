@@ -307,8 +307,8 @@
                 let natY = relY * img.naturalHeight;
 
                 // Перемещение лупы
-                glass.style.left = (x - w) + 'px';
-                glass.style.top = (y - h) + 'px';
+                glass.style.left = (x - w) + rect.left + window.scrollX + 'px';
+                glass.style.top  = (y - h) + rect.top + window.scrollY + 'px';
 
                 // Фон внутри лупы
                 glass.style.backgroundPosition = `-${natX * zoom - w}px -${natY * zoom - h}px`;
