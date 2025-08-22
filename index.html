@@ -45,15 +45,17 @@
             position: absolute;
             border: 3px solid #000;
             border-radius: 50%;
-            cursor: none;
             width: 150px;
             height: 150px;
             overflow: hidden;
             z-index: 9999;
             pointer-events: none;
             background-repeat: no-repeat;
-            visibility: hidden;
+            display: none;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            transform: none; /* Убедимся, что нет трансформаций */
+            margin: 0;
+            padding: 0;
         }
 
         /* Секция с текстом */
@@ -266,6 +268,7 @@
             slider.addEventListener('click', (e) => { updateSliderPosition(e.clientX); });
         }
 
+        // Лупа для изображения
         function magnify(imgID, zoom) {
             const img = document.getElementById(imgID);
             const wrap = img.parentElement;
@@ -274,10 +277,8 @@
             glass.className = 'img-magnifier-glass';
             wrap.appendChild(glass);
         
-            const glassWidth = glass.offsetWidth;
-            const glassHeight = glass.offsetHeight;
-            const w = glassWidth / 2;
-            const h = glassHeight / 2;
+            const glassSize = 150; // Размер лупы
+            const halfSize = glassSize / 2;
         
             function setBackground() {
                 glass.style.backgroundImage = `url('${img.src}')`;
@@ -291,45 +292,49 @@
             function moveMagnifier(e) {
                 e.preventDefault();
                 
-                const rect = img.getBoundingClientRect();
-                let x, y;
-                
-                // Получаем координаты курсора
+                // Получаем координаты мыши/касания
+                let mouseX, mouseY;
                 if (e.touches) {
-                    x = e.touches[0].clientX;
-                    y = e.touches[0].clientY;
+                    mouseX = e.touches[0].pageX;
+                    mouseY = e.touches[0].pageY;
                 } else {
-                    x = e.clientX;
-                    y = e.clientY;
+                    mouseX = e.pageX;
+                    mouseY = e.pageY;
                 }
+        
+                // Получаем позицию изображения относительно документа
+                const imgRect = img.getBoundingClientRect();
+                const imgLeft = imgRect.left + window.pageXOffset;
+                const imgTop = imgRect.top + window.pageYOffset;
         
                 // Проверяем, находится ли курсор над изображением
-                if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
-                    glass.style.visibility = 'hidden';
+                if (mouseX < imgLeft || mouseX > imgLeft + imgRect.width || 
+                    mouseY < imgTop || mouseY > imgTop + imgRect.height) {
+                    glass.style.display = 'none';
                     return;
                 }
-                glass.style.visibility = 'visible';
+                glass.style.display = 'block';
         
-                // Позиция курсора относительно изображения
-                const relX = (x - rect.left) / rect.width;
-                const relY = (y - rect.top) / rect.height;
+                // Позиция курсора относительно изображения (0-1)
+                const relX = (mouseX - imgLeft) / imgRect.width;
+                const relY = (mouseY - imgTop) / imgRect.height;
         
                 // Координаты внутри оригинального изображения
-                const natX = relX * img.naturalWidth;
-                const natY = relY * img.naturalHeight;
+                const bgX = (relX * img.naturalWidth * zoom) - halfSize;
+                const bgY = (relY * img.naturalHeight * zoom) - halfSize;
         
-                // Позиционируем лупу точно по курсору
-                glass.style.left = `${x - w}px`;
-                glass.style.top = `${y - h}px`;
+                // Позиционируем лупу
+                glass.style.left = `${mouseX - halfSize}px`;
+                glass.style.top = `${mouseY - halfSize}px`;
         
-                // Смещаем background чтобы нужная часть была в центре лупы
-                glass.style.backgroundPosition = `-${(natX * zoom) - w}px -${(natY * zoom) - h}px`;
+                // Смещаем background
+                glass.style.backgroundPosition = `-${bgX}px -${bgY}px`;
             }
         
             // Обработчики событий
             img.addEventListener('mousemove', moveMagnifier);
-            img.addEventListener('mouseenter', () => { glass.style.visibility = 'visible'; });
-            img.addEventListener('mouseleave', () => { glass.style.visibility = 'hidden'; });
+            img.addEventListener('mouseenter', () => { glass.style.display = 'block'; });
+            img.addEventListener('mouseleave', () => { glass.style.display = 'none'; });
             
             // Для touch устройств
             img.addEventListener('touchmove', moveMagnifier, { passive: false });
