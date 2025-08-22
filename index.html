@@ -50,7 +50,7 @@
             height: 150px;
             overflow: hidden;
             z-index: 10;
-            pointer-events: none; /* пропускаем события к изображению */
+            pointer-events: none;
             background-repeat: no-repeat;
         }
 
@@ -186,7 +186,6 @@
     <!-- Первая секция с изображением -->
     <section class="section hero-section">
         <h1>Zemljevid Slovenskih Železnic</h1>
-        <!-- Оборачиваем картинку в контейнер для корректного позиционирования лупы -->
         <div id="magnify-wrap" style="position:relative; display:inline-block;">
             <img src="imgbrowser1.png" alt="Мое изображение" class="hero-image" id="mainImage">
         </div>
@@ -265,10 +264,10 @@
             slider.addEventListener('click', (e) => { updateSliderPosition(e.clientX); });
         }
 
-        // Лупа для изображения (адаптивная и под курсором)
+        // Лупа для изображения (на основе naturalWidth/naturalHeight)
         function magnify(imgID, zoom) {
             const img = document.getElementById(imgID);
-            const wrap = img.parentElement; // wrap имеет position:relative
+            const wrap = img.parentElement;
 
             const glass = document.createElement('div');
             glass.className = 'img-magnifier-glass';
@@ -276,13 +275,10 @@
 
             let w = glass.offsetWidth / 2;
             let h = glass.offsetHeight / 2;
-            let displayW = 0, displayH = 0;
 
             function setBackground() {
-                displayW = img.clientWidth;
-                displayH = img.clientHeight;
                 glass.style.backgroundImage = `url('${img.src}')`;
-                glass.style.backgroundSize = `${displayW * zoom}px ${displayH * zoom}px`;
+                glass.style.backgroundSize = `${img.naturalWidth * zoom}px ${img.naturalHeight * zoom}px`;
             }
 
             setBackground();
@@ -298,21 +294,26 @@
                 let x = clientX - rect.left;
                 let y = clientY - rect.top;
 
-                // Ограничения, чтобы стекло не выходило за края
-                const minX = w / zoom;
-                const maxX = displayW - w / zoom;
-                const minY = h / zoom;
-                const maxY = displayH - h / zoom;
+                // Относительные координаты (0..1)
+                let relX = x / rect.width;
+                let relY = y / rect.height;
 
-                x = Math.max(minX, Math.min(maxX, x));
-                y = Math.max(minY, Math.min(maxY, y));
+                // Ограничение в пределах картинки
+                relX = Math.max(0, Math.min(1, relX));
+                relY = Math.max(0, Math.min(1, relY));
 
-                glass.style.left = `${x - w}px`;
-                glass.style.top = `${y - h}px`;
-                glass.style.backgroundPosition = `-${x * zoom - w}px -${y * zoom - h}px`;
+                // Координаты внутри изображения в пикселях natural
+                let natX = relX * img.naturalWidth;
+                let natY = relY * img.naturalHeight;
+
+                // Перемещение лупы
+                glass.style.left = (x - w) + 'px';
+                glass.style.top = (y - h) + 'px';
+
+                // Фон внутри лупы
+                glass.style.backgroundPosition = `-${natX * zoom - w}px -${natY * zoom - h}px`;
             }
 
-            // Навешиваем слушатели на само изображение и на стекло
             img.addEventListener('mousemove', move);
             glass.addEventListener('mousemove', move);
             img.addEventListener('touchmove', move, { passive: false });
