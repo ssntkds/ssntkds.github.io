@@ -42,7 +42,7 @@
 
         /* Лупа */
         .img-magnifier-glass {
-            position: fixed; /* Меняем на fixed */
+            position: fixed;
             border: 3px solid #000;
             border-radius: 50%;
             width: 150px;
@@ -55,6 +55,7 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
             margin: 0;
             padding: 0;
+            transform: translateZ(0); /* Добавьте эту строку */
         }
 
         /* Секция с текстом */
@@ -321,8 +322,8 @@
                 const bgY = (relY * img.naturalHeight * zoom) - halfSize;
         
                 // Позиционируем лупу относительно viewport (фиксированная позиция)
-                glass.style.left = `${mouseX - halfSize + window.pageXOffset}px`;
-                glass.style.top = `${mouseY - halfSize + window.pageYOffset}px`;
+                glass.style.left = `${mouseX - halfSize}px`;
+                glass.style.top = `${mouseY - halfSize}px`;
         
                 // Смещаем background
                 glass.style.backgroundPosition = `-${bgX}px -${bgY}px`;
