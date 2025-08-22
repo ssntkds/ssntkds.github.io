@@ -290,26 +290,26 @@
                 const rect = img.getBoundingClientRect();
                 const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
+            
                 let x = clientX - rect.left;
                 let y = clientY - rect.top;
-
+            
                 // Относительные координаты (0..1)
                 let relX = x / rect.width;
                 let relY = y / rect.height;
-
+            
                 // Ограничение в пределах картинки
                 relX = Math.max(0, Math.min(1, relX));
                 relY = Math.max(0, Math.min(1, relY));
-
+            
                 // Координаты внутри изображения в пикселях natural
                 let natX = relX * img.naturalWidth;
                 let natY = relY * img.naturalHeight;
-
-                // Перемещение лупы
-                glass.style.left = (x - w) + rect.left + window.scrollX + 'px';
-                glass.style.top  = (y - h) + rect.top + window.scrollY + 'px';
-
+            
+                // Убрать window.scrollX и window.scrollY - они уже учтены в getBoundingClientRect()
+                glass.style.left = (clientX - w) + 'px';
+                glass.style.top = (clientY - h) + 'px';
+            
                 // Фон внутри лупы
                 glass.style.backgroundPosition = `-${natX * zoom - w}px -${natY * zoom - h}px`;
             }
