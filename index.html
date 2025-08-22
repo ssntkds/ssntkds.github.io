@@ -38,6 +38,7 @@
             width: 60%; /* Уменьшен размер */
             height: auto;
             margin-bottom: 30px;
+            position: relative;
         }
 
         /* Лупа */
@@ -50,6 +51,8 @@
             height: 150px;
             overflow: hidden;
             z-index: 10;
+            pointer-events: none;
+            background-repeat: no-repeat;
         }
 
         /* Секция с текстом */
@@ -184,7 +187,9 @@
     <!-- Первая секция с изображением -->
     <section class="section hero-section">
         <h1>Zemljevid Slovenskih Železnic</h1>
-        <img src="imgbrowser1.png" alt="Мое изображение" class="hero-image" id="mainImage">
+        <div style="position:relative; display:inline-block;">
+            <img src="imgbrowser1.png" alt="Мое изображение" class="hero-image" id="mainImage">
+        </div>
     </section>
 
     <!-- Блок текста -->
@@ -260,27 +265,21 @@
             slider.addEventListener('click', (e) => { updateSliderPosition(e.clientX); });
         }
 
-        // Лупа для изображения (область курсора)
+        // Лупа для изображения (правильное позиционирование)
         function magnify(imgID, zoom) {
             var img, glass, w, h, bw;
             img = document.getElementById(imgID);
 
-            /* Создаем увеличительное стекло: */
             glass = document.createElement("DIV");
             glass.setAttribute("class", "img-magnifier-glass");
+            img.parentElement.appendChild(glass);
 
-            /* Вставляем увеличительное стекло: */
-            img.parentElement.insertBefore(glass, img);
-
-            /* Задаем фон увеличительного стекла: */
             glass.style.backgroundImage = `url('` + img.src + `')`;
-            glass.style.backgroundRepeat = "no-repeat";
             glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
             bw = 3;
             w = glass.offsetWidth / 2;
             h = glass.offsetHeight / 2;
 
-            /* Выполняем функцию при движении курсора */
             glass.addEventListener("mousemove", moveMagnifier);
             img.addEventListener("mousemove", moveMagnifier);
             glass.addEventListener("touchmove", moveMagnifier);
