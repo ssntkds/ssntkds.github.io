@@ -184,7 +184,7 @@
 <body>
     <!-- Верхнее изображение -->
     <div class="top-image-container">
-        <img src="topimage.png" alt="Верхнее изображение" id="topImage">
+        <img src="header_img_small.png" alt="Верхнее изображение" id="topImage">
     </div>
 
     <!-- Первая секция с изображением -->
@@ -270,6 +270,9 @@
 
         // Лупа для изображения
         function magnify(imgID, zoom) {
+            if ('ontouchstart' in window || window.innerWidth < 768) {
+                return;
+            }
             const img = document.getElementById(imgID);
             const wrap = img.parentElement;
         
@@ -340,18 +343,18 @@
         }
 
         // Эффект вращения верхнего изображения при скролле
-        function initTopImageRotation() {
+        function initTopImageShift() {
             const topImg = document.getElementById('topImage');
             window.addEventListener('scroll', () => {
-                const rotation = window.scrollY * 0.2;
-                topImg.style.transform = `rotate(${rotation}deg)`;
+                const shift = window.scrollY * 0.5; // скорость смещения
+                topImg.style.transform = `translateX(${shift}px)`;
             });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             initComparisonSlider();
             magnify('mainImage', 1);
-            initTopImageRotation();
+            initTopImageShift();
 
             const images = document.querySelectorAll('img');
             images.forEach(img => { img.loading = 'lazy'; });
