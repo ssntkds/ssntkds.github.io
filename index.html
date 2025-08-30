@@ -184,8 +184,17 @@
 
         .hero-section h1 {
             font-family: 'PT Sans', sans-serif;
-            font-size: 48px; 
-            font-weight: 700;
+            font-size: 36px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-image {
+                width: 100% !important; /* на всю ширину */
+            }
+        
+            .hero-section h1 {
+                font-size: 24px; /* уменьшаем заголовок */
+            }
         }
     </style>
 </head>
