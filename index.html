@@ -60,18 +60,25 @@
         }
 
         .img-tab {
-            padding: 10px 20px;
+            background: none;
             border: none;
-            background: #ddd;
+            padding: 6px 12px;
             cursor: pointer;
-            margin-right: 10px;
-            border-radius: 6px;
-            font-size: 16px;
+            font-size: 18px;
+            color: #555;
+            opacity: 0.6;
+            transition: 0.2s ease;
+        }
+        
+        .img-tab:hover {
+            opacity: 1;
         }
         
         .img-tab.active {
-            background: #4a7ebB;
-            color: white;
+            opacity: 1;
+            font-weight: bold;
+            color: black;
+            text-decoration: underline;
         }
 
         /* Секция с текстом */
@@ -225,8 +232,8 @@
     <section class="section hero-section">
         <h1>Zemljevid Slovenskih Železnic</h1>
         <div style="margin-bottom: 20px;">
-            <button class="img-tab active" data-version="v2">08.2025</button>
-            <button class="img-tab" data-version="v1">12.2025</button>
+            <button class="img-tab active" data-version="v2">current</button>
+            <button class="img-tab" data-version="v1">v1</button>
         </div>
         
         <div id="magnify-wrap" style="position:relative; display:inline-block;">
