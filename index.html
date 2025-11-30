@@ -59,6 +59,21 @@
             transform: translateZ(0); /* Добавьте эту строку */
         }
 
+        .img-tab {
+            padding: 10px 20px;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            margin-right: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        .img-tab.active {
+            background: #4a7ebB;
+            color: white;
+        }
+
         /* Секция с текстом */
         .text-section {
             background-color: white;
@@ -209,8 +224,14 @@
     <!-- Первая секция с изображением -->
     <section class="section hero-section">
         <h1>Zemljevid Slovenskih Železnic</h1>
+        <div style="margin-bottom: 20px;">
+            <button class="img-tab active" data-version="v2">08.2025</button>
+            <button class="img-tab" data-version="v1">12.2025</button>
+        </div>
+        
         <div id="magnify-wrap" style="position:relative; display:inline-block;">
-            <img src="imgbrowser1.png" alt="Мое изображение" class="hero-image" id="mainImage">
+            <!-- По умолчанию — версия 2 -->
+            <img src="main_v2.png" alt="Мое изображение" class="hero-image" id="mainImage">
         </div>
     </section>
 
@@ -380,6 +401,29 @@
 
             const images = document.querySelectorAll('img');
             images.forEach(img => { img.loading = 'lazy'; });
+        });
+
+        document.querySelectorAll('.img-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Меняем активную кнопку
+                document.querySelectorAll('.img-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+        
+                // Выбор изображения
+                const version = btn.dataset.version;
+                const img = document.getElementById('mainImage');
+        
+                img.src = version === 'v1' ? 'main_v1.png' : 'main_v2.png';
+        
+                // Перезапуск лупы после смены изображения
+                setTimeout(() => {
+                    // Удаляем старые элементы лупы
+                    const oldGlass = document.querySelector('.img-magnifier-glass');
+                    if (oldGlass) oldGlass.remove();
+        
+                    magnify('mainImage', 0.8);
+                }, 100);
+            });
         });
     </script>
 </body>
