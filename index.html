@@ -81,6 +81,21 @@
             text-decoration: underline;
         }
 
+        .download-link {
+            font-size: 18px;
+            text-decoration: none;
+            color: #4a7ebb;
+            border-bottom: 1px solid #4a7ebb;
+            padding-bottom: 2px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+        
+        .download-link:hover {
+            color: #336699;
+            border-bottom-color: #336699;
+        }
+
         /* Секция с текстом */
         .text-section {
             background-color: white;
@@ -239,6 +254,10 @@
         <div id="magnify-wrap" style="position:relative; display:inline-block;">
             <!-- По умолчанию — версия 2 -->
             <img src="main_v2.png" alt="Мое изображение" class="hero-image" id="mainImage">
+        </div>
+
+        <div style="margin-top: 15px;">
+            <a id="downloadBtn" href="main_v2.png" download class="download-link">Download</a>
         </div>
     </section>
 
@@ -403,7 +422,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             initComparisonSlider();
-            magnify('mainImage', 0.8);
+            magnify('mainImage', 0.5);
             initTopImageShift();
 
             const images = document.querySelectorAll('img');
@@ -416,18 +435,24 @@
                 document.querySelectorAll('.img-tab').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
         
-                // Выбор изображения
+                // Определяем версию
                 const version = btn.dataset.version;
                 const img = document.getElementById('mainImage');
+                const downloadBtn = document.getElementById('downloadBtn');
         
-                img.src = version === 'v1' ? 'main_v1.png' : 'main_v2.png';
+                // Пути к файлам
+                const src = version === 'v1' ? 'main_v1.png' : 'main_v2.png';
         
-                // Перезапуск лупы после смены изображения
+                // Меняем изображение
+                img.src = src;
+        
+                // Меняем ссылку скачивания
+                downloadBtn.href = src;
+        
+                // Перезапускаем лупу после смены изображения
                 setTimeout(() => {
-                    // Удаляем старые элементы лупы
                     const oldGlass = document.querySelector('.img-magnifier-glass');
                     if (oldGlass) oldGlass.remove();
-        
                     magnify('mainImage', 0.8);
                 }, 100);
             });
