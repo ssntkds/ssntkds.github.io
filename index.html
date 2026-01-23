@@ -36,7 +36,7 @@
         }
 
         .hero-image {
-            width: 60%; /* Уменьшен размер */
+            width: 60%;
             height: auto;
             margin-bottom: 30px;
         }
@@ -56,7 +56,7 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
             margin: 0;
             padding: 0;
-            transform: translateZ(0); /* Добавьте эту строку */
+            transform: translateZ(0);
         }
 
         .img-tab {
@@ -96,7 +96,7 @@
             border-bottom-color: #336699;
         }
 
-        /* Секция с текстом */
+        /* Обновленные стили для текстовых секций */
         .text-section {
             background-color: white;
             color: black;
@@ -104,7 +104,15 @@
 
         .text-block {
             font-size: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 0;
+        }
+
+        /* Двухколоночный контейнер */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
         }
 
         /* Секция с черным фоном */
@@ -112,6 +120,12 @@
             background-color: black;
             color: white;
             padding: 100px 20px;
+        }
+
+        .black-section-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
         }
 
         /* Секция со слайдером сравнения */
@@ -209,7 +223,7 @@
             position: relative;
             width: 100%;
             margin: 20px 0;
-            overflow: hidden; /* <-- добавляем */
+            overflow: hidden;
         }
         
         .top-image-container img {
@@ -218,7 +232,7 @@
             display: block;
             margin-left: auto;
             transition: transform 0.2s ease-out;
-            will-change: transform; /* <-- подсказывает браузеру, что будет анимация */
+            will-change: transform;
         }
 
         .hero-section h1 {
@@ -226,50 +240,58 @@
             font-size: 36px;
         }
 
-        .about {
-          display: grid;
-          grid-template-columns: 1fr 2fr;
-          gap: 2rem;
-          max-width: 960px;
-          margin: 0 auto;
-          padding: 80px 20px;
-          font-family: 'PT Sans', sans-serif;
-          color: #222;
+        /* Стили для автора */
+        .author-signature {
+            margin-top: 60px;
+            text-align: right;
+            font-style: italic;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 20px;
         }
-        
-        .about .author .label {
-          text-transform: uppercase;
-          font-size: 0.75rem;
-          letter-spacing: 0.08em;
-          color: #777;
-          margin-bottom: 0.5rem;
-        }
-        
-        .about .author h2 {
-          font-size: 1.6rem;
-          line-height: 1.2;
-          margin: 0;
-        }
-        
-        .about .description p {
-          margin-bottom: 0.8rem;
-          line-height: 1.6;
-        }
-        
-        /* Мобильная версия — колонки становятся вертикально */
-        @media (max-width: 720px) {
-          .about {
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
-          }
-        }
+
+        /* Адаптивность для мобильных устройств */
         @media (max-width: 768px) {
             .hero-image {
-                width: 100% !important; /* на всю ширину */
+                width: 100% !important;
             }
         
             .hero-section h1 {
-                font-size: 24px; /* уменьшаем заголовок */
+                font-size: 24px;
+            }
+
+            /* На мобильных - одна колонка */
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .section {
+                padding: 50px 20px;
+            }
+
+            .black-section {
+                padding: 60px 20px;
+            }
+
+            .author-signature {
+                text-align: center;
+                margin-top: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 40px 15px;
+            }
+
+            .black-section {
+                padding: 50px 15px;
+            }
+
+            .text-block {
+                font-size: 16px;
             }
         }
     </style>
@@ -290,7 +312,6 @@
         </div>
         
         <div id="magnify-wrap" style="position:relative; display:inline-block;">
-            <!-- По умолчанию — версия 3 -->
             <img src="main_v3.png" alt="Мое изображение" class="hero-image" id="mainImage">
         </div>
 
@@ -299,36 +320,36 @@
         </div>
     </section>
 
-    <!-- Блок текста -->
+    <!-- Обновленный блок текста в две колонки -->
     <section class="section text-section">
-        <div class="text-block">
-            <p>This is an unofficial experimental pet project aimed at simplifying the railway user experience by trying to convey as much information about railways as possible.
-            </p>
+        <div class="two-columns">
+            <div class="text-block">
+                <p>This is an unofficial experimental pet project aimed at simplifying the railway user experience by trying to convey as much information about railways as possible.</p>
+                <p>The map is designed around a 30-degree grid with smooth, flowing geometry inspired by Stadler train design.</p>
+            </div>
+            <div class="text-block">
+                <p>It integrates bus connections to airports and ports, highlights accessibility for passengers with reduced mobility, and clearly marks stations served by EC, IC, and ICS services.</p>
+                <p>The visualization approach focuses on clarity and ease of navigation while maintaining aesthetic appeal.</p>
+            </div>
         </div>
     </section>
 
-    <!-- Еще блок текста -->
-    <section class="section about">
-      <div class="author">
-        <p class="label">Author</p>
-        <h2>Timur<br>Kushnarenko</h2>
-      </div>
-    
-      <div class="description">
-        <p>
-          The map is designed around a 30-degree grid with smooth, flowing geometry inspired
-          by Stadler train design.
-        </p>
-        <p>
-          It integrates bus connections to airports and ports, highlights accessibility
-          for passengers with reduced mobility, and clearly marks stations served by EC,
-          IC, and ICS services.
-        </p>
-      </div>
+    <!-- Обновленная секция с черным фоном -->
+    <section class="section black-section">
+        <div class="two-columns">
+            <div class="text-block">
+                <p>The project combines traditional cartographic principles with modern information design techniques to create a comprehensive yet intuitive railway network visualization.</p>
+            </div>
+            <div class="text-block">
+                <p>Special attention is given to intermodal connections and accessibility features, making it useful for both regular commuters and occasional travelers.</p>
+            </div>
+        </div>
+        <div class="author-signature">
+            Author: Timur Kushnarenko
+        </div>
     </section>
 
     <script>
-        // Функция для обработки слайдера сравнения
         function initComparisonSlider() {
             const slider = document.getElementById('comparisonSlider');
             const handle = document.getElementById('sliderHandle');
@@ -358,7 +379,6 @@
             slider.addEventListener('click', (e) => { updateSliderPosition(e.clientX); });
         }
 
-        // Лупа для изображения
         function magnify(imgID, zoom) {
             if ('ontouchstart' in window || window.innerWidth < 768) {
                 return;
@@ -385,7 +405,6 @@
             function moveMagnifier(e) {
                 e.preventDefault();
                 
-                // Получаем координаты курсора относительно viewport
                 let mouseX, mouseY;
                 if (e.touches) {
                     mouseX = e.touches[0].clientX;
@@ -395,10 +414,8 @@
                     mouseY = e.clientY;
                 }
         
-                // Получаем позицию изображения относительно viewport
                 const imgRect = img.getBoundingClientRect();
         
-                // Проверяем, находится ли курсор над изображением
                 if (mouseX < imgRect.left || mouseX > imgRect.right || 
                     mouseY < imgRect.top || mouseY > imgRect.bottom) {
                     glass.style.display = 'none';
@@ -406,37 +423,30 @@
                 }
                 glass.style.display = 'block';
         
-                // Позиция курсора относительно изображения (0-1)
                 const relX = (mouseX - imgRect.left) / imgRect.width;
                 const relY = (mouseY - imgRect.top) / imgRect.height;
         
-                // Координаты внутри оригинального изображения
                 const bgX = (relX * img.naturalWidth * zoom) - halfSize;
                 const bgY = (relY * img.naturalHeight * zoom) - halfSize;
         
-                // Позиционируем лупу относительно viewport (фиксированная позиция)
                 glass.style.left = `${mouseX - halfSize}px`;
                 glass.style.top = `${mouseY - halfSize}px`;
         
-                // Смещаем background
                 glass.style.backgroundPosition = `-${bgX}px -${bgY}px`;
             }
         
-            // Обработчики событий
             img.addEventListener('mousemove', moveMagnifier);
             img.addEventListener('mouseenter', () => { glass.style.display = 'block'; });
             img.addEventListener('mouseleave', () => { glass.style.display = 'none'; });
             
-            // Для touch устройств
             img.addEventListener('touchmove', moveMagnifier, { passive: false });
             img.addEventListener('touchstart', moveMagnifier, { passive: false });
         }
 
-        // Эффект вращения верхнего изображения при скролле
         function initTopImageShift() {
             const topImg = document.getElementById('topImage');
             window.addEventListener('scroll', () => {
-                const shift = window.scrollY * 0.5; // скорость смещения
+                const shift = window.scrollY * 0.5;
                 topImg.style.transform = `translateX(${shift}px)`;
             });
         }
@@ -452,16 +462,13 @@
 
         document.querySelectorAll('.img-tab').forEach(btn => {
             btn.addEventListener('click', () => {
-                // Меняем активную кнопку
                 document.querySelectorAll('.img-tab').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
         
-                // Определяем версию
                 const version = btn.dataset.version;
                 const img = document.getElementById('mainImage');
                 const downloadBtn = document.getElementById('downloadBtn');
         
-                // Пути к файлам
                 const versions = {
                   v1: 'main_v1.png',
                   v2: 'main_v2.png',
@@ -470,13 +477,9 @@
                 
                 const src = versions[version];
         
-                // Меняем изображение
                 img.src = src;
-        
-                // Меняем ссылку скачивания
                 downloadBtn.href = src;
         
-                // Перезапускаем лупу после смены изображения
                 setTimeout(() => {
                     const oldGlass = document.querySelector('.img-magnifier-glass');
                     if (oldGlass) oldGlass.remove();
