@@ -247,17 +247,18 @@
     <section class="section hero-section">
         <h1>Zemljevid Slovenskih Železnic</h1>
         <div style="margin-bottom: 20px;">
-            <button class="img-tab active" data-version="v2">current</button>
+            <button class="img-tab active" data-version="v3">current</button>
+            <button class="img-tab" data-version="v2">v2</button>
             <button class="img-tab" data-version="v1">v1</button>
         </div>
         
         <div id="magnify-wrap" style="position:relative; display:inline-block;">
-            <!-- По умолчанию — версия 2 -->
-            <img src="main_v2.png" alt="Мое изображение" class="hero-image" id="mainImage">
+            <!-- По умолчанию — версия 3 -->
+            <img src="main_v3.png" alt="Мое изображение" class="hero-image" id="mainImage">
         </div>
 
         <div style="margin-top: 15px;">
-            <a id="downloadBtn" href="main_v2.png" download class="download-link">Download</a>
+            <a id="downloadBtn" href="main_v3.png" download class="download-link">Download</a>
         </div>
     </section>
 
@@ -439,7 +440,13 @@
                 const downloadBtn = document.getElementById('downloadBtn');
         
                 // Пути к файлам
-                const src = version === 'v1' ? 'main_v1.png' : 'main_v2.png';
+                const versions = {
+                  v1: 'main_v1.png',
+                  v2: 'main_v2.png',
+                  v3: 'main_v3.png',
+                };
+                
+                const src = versions[version];
         
                 // Меняем изображение
                 img.src = src;
