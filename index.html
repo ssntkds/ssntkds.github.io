@@ -226,6 +226,43 @@
             font-size: 36px;
         }
 
+        .about {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          gap: 2rem;
+          max-width: 960px;
+          margin: 0 auto;
+          padding: 80px 20px;
+          font-family: 'PT Sans', sans-serif;
+          color: #222;
+        }
+        
+        .about .author .label {
+          text-transform: uppercase;
+          font-size: 0.75rem;
+          letter-spacing: 0.08em;
+          color: #777;
+          margin-bottom: 0.5rem;
+        }
+        
+        .about .author h2 {
+          font-size: 1.6rem;
+          line-height: 1.2;
+          margin: 0;
+        }
+        
+        .about .description p {
+          margin-bottom: 0.8rem;
+          line-height: 1.6;
+        }
+        
+        /* Мобильная версия — колонки становятся вертикально */
+        @media (max-width: 720px) {
+          .about {
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+          }
+        }
         @media (max-width: 768px) {
             .hero-image {
                 width: 100% !important; /* на всю ширину */
@@ -265,44 +302,29 @@
     <!-- Блок текста -->
     <section class="section text-section">
         <div class="text-block">
-            <p>I've redesigned the official map into a metro-style map.
+            <p>This is an unofficial experimental pet project aimed at simplifying the railway user experience by trying to convey as much information about railways as possible.
             </p>
         </div>
     </section>
 
-    <!-- Секция с черным фоном и слайдером -->
-    <div class="black-section">
-        <h2>Comparison</h2>
-    </div>
-
-    <section class="comparison-section">
-        <div class="comparison-slider" id="comparisonSlider">
-            <img src="before.png" alt="Before" class="comparison-image image-before">
-            <img src="after.png" alt="After" class="comparison-image image-after">
-            <div class="slider-handle" id="sliderHandle"></div>
-        </div>
-    </section>
-
     <!-- Еще блок текста -->
-    <section class="section text-section">
-        <div class="text-block">
-            <h2>What was introduced</h2>
-            <p>There is the map with a clear 60°/30° angle layout for easier reading and navigation. New features include:</p>
-            <p>Bus connections to key points of interest, including airports in Ljubljana, Maribor, and Portorož, as well as Koper Port.</p>
-            <p>Alternative routes to stations currently out of service.</p>
-            <p>Accessibility information for passengers with reduced mobility.</p>
-            <p>Planned updates: soon, the map will also display EC, IC, and ICS train services.</p>
-            <p>Explore the map and plan your journey with confidence – all updates are aimed at making travel easier, faster, and more convenient.</p>
-        </div>
-    </section>
-
-    <!-- Секция с белым фоном и галереей -->
-    <section class="section white-section">
-        <h2>тут мокапы</h2>
-        <div class="gallery">
-            <img src="image1.jpg" alt="Работа 1" class="gallery-image">
-            <img src="image2.jpg" alt="Работа 2" class="gallery-image">
-        </div>
+    <section class="section about">
+      <div class="author">
+        <p class="label">Author</p>
+        <h2>Timur<br>Kushnarenko</h2>
+      </div>
+    
+      <div class="description">
+        <p>
+          The map is designed around a 30-degree grid with smooth, flowing geometry inspired
+          by Stadler train design.
+        </p>
+        <p>
+          It integrates bus connections to airports and ports, highlights accessibility
+          for passengers with reduced mobility, and clearly marks stations served by EC,
+          IC, and ICS services.
+        </p>
+      </div>
     </section>
 
     <script>
